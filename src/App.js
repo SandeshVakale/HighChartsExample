@@ -237,7 +237,6 @@ export default function ButtonAppBar() {
   }, []);
   return (
       <div className={classes.root}>
-          {console.log(metric)}
         <AppBar position="static">
           <Toolbar>
             <Typography variant="h1" className={classes.title}>
@@ -318,6 +317,15 @@ export default function ButtonAppBar() {
                               {(metric.metric === 'ALL' || metric.metric === 'areaInSqKm') &&  <StyledTableCell align="right">{row.Area}</StyledTableCell>}
                           </StyledTableRow>
                       ))}
+                      <StyledTableRow>
+                          <StyledTableCell component="th" scope="row">
+
+                          </StyledTableCell>
+                          <StyledTableCell align="right">Total</StyledTableCell>
+                          {(metric.metric === 'ALL' || metric.metric === 'population') && <StyledTableCell align="right">100</StyledTableCell>}
+                          {(metric.metric === 'ALL' || metric.metric === 'areaInSqKm') &&  <StyledTableCell align="right">100</StyledTableCell>}
+                      </StyledTableRow>
+
                   </TableBody>
               </Table>
           </TableContainer>
