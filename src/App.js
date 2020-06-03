@@ -7,7 +7,13 @@ import Button from '@material-ui/core/Button';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import PieChart from 'highcharts';
+import HighchartsReact from 'highcharts-react-official'
 
+
+let options = []
+let optionsKm = []
+let rows = []
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -38,11 +44,11 @@ export default function ButtonAppBar() {
     name: '',
   });
     const [metric, setMetric] = useState({
-        metric: '',
+        metric: 'ALL',
         name: '',
     });
     const [chartMax, setChartMax] = useState({
-        chartMax: '',
+        chartMax: '5',
         name: '',
     });
     const [disabled, setDisabled] = useState(true);
@@ -52,6 +58,7 @@ export default function ButtonAppBar() {
       ...state,
       [name]: event.target.value,
     });
+      handledata(event.target.value)
   };
 
    const handleChangeMetric = (event) => {
@@ -60,6 +67,7 @@ export default function ButtonAppBar() {
             ...metric,
             [name]: event.target.value,
         });
+       handleTable(event.target.value)
     };
 
     const handleChangeChartMax = (event) => {
@@ -70,18 +78,119 @@ export default function ButtonAppBar() {
         });
     };
 
-  const getContinets = (data) => {
+  const getContinents = (data) => {
       let arrayData = data && data.geonames.map((value) => value.continentName)
       let filterData = arrayData.filter((value, index) => arrayData.indexOf(value) === index)
         //console.log('filterData', filterData.sort())
-    setContinent(filterData.sort())
+        setContinent(filterData.sort())
 
   }
+
+  const handledata = (continent) => {
+
+      if (continent === 'ALL') {
+          let data_filter = data && data.geonames
+          let total = 0
+          let totalKm = 0
+          data_filter && data_filter.map((value)  => {
+              total = total + parseInt(value.population)
+          })
+          data_filter && data_filter.map((value)  => {
+              totalKm = totalKm + parseInt(value.areaInSqKm)
+          })
+          options =   {
+              title: {
+                  text: 'Population'
+              },
+              chart: {
+                  type: 'pie',
+              },
+              series: [{
+                  data:
+                      data_filter && data_filter.map((value, i) => {
+                          return {
+                              name: value.countryName,
+                              y: (parseFloat(value.population) / total) * 100
+                          }
+                      })
+              }]
+          }
+          optionsKm =   {
+              title: {
+                  text: 'Area Square Meter'
+              },
+              chart: {
+                  type: 'pie',
+              },
+              series: [{
+                  data:
+                      data_filter && data_filter.map((value) => {
+                          return {
+                              name: value.countryName,
+                              y: (parseFloat(value.areaInSqKm) / totalKm) * 100
+                          }
+                      })
+              }]
+          }
+
+      } else {
+          let data_filter = data.geonames.filter((value) => value.continentName === continent)
+          let total = 0
+          let totalKm = 0
+          data_filter && data_filter.map((value)  => {
+              total = total + parseInt(value.population)
+          })
+          console.log(total)
+          data_filter && data_filter.map((value)  => {
+              totalKm = totalKm + parseInt(value.areaInSqKm)
+          })
+          options =   {
+              title: {
+                  text: 'Population'
+              },
+              chart: {
+                  type: 'pie',
+              },
+              series: [{
+                  data:
+                      data_filter && data_filter.map((value, i) => {
+                          return {
+                              name: value.countryName,
+                              y: (parseFloat(value.population) / total) * 100
+                          }
+                      })
+              }]
+          }
+          optionsKm =   {
+              title: {
+                  text: 'Area Square Meter'
+              },
+              chart: {
+                  type: 'pie',
+              },
+              series: [{
+                  data:
+                      data_filter && data_filter.map((value) => {
+                          return {
+                              name: value.countryName,
+                              y: (parseFloat(value.areaInSqKm) / totalKm) * 100
+                          }
+                      })
+              }]
+          }
+      }
+
+    }
+
+    const handleTable = (table) => {
+
+    }
+
   async function fetchData() {
         const api_call = await fetch(Link);
         const data = await api_call.json();
         setData(data)
-        getContinets(data);
+      getContinents(data);
     }
 
   const onPressGo = () => {
@@ -92,9 +201,11 @@ export default function ButtonAppBar() {
   useEffect( () => {
     document.title = "Frontend Dev CS"
     fetchData();
+    handledata('ALL')
   }, []);
   return (
       <div className={classes.root}>
+          {console.log(metric)}
         <AppBar position="static">
           <Toolbar>
             <Typography variant="h1" className={classes.title}>
@@ -145,12 +256,14 @@ export default function ButtonAppBar() {
                 id: 'chart-max-native-simple',
               }}
           >
-            <option value={'5'}>5</option>
+              <option value={'5'}>5</option>
               <option value={'10'}>10</option>
               <option value={'15'}>15</option>
               <option value={'20'}>20</option>
           </Select>
         </FormControl>
+          {(metric.metric === 'ALL' || metric.metric === 'population') && <HighchartsReact highcharts={PieChart} options={options} />}
+          {(metric.metric === 'ALL' || metric.metric === 'areaInSqKm') && <HighchartsReact highcharts={PieChart} options={optionsKm} />}
       </div>
   );
 }
