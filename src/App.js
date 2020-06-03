@@ -142,7 +142,7 @@ export default function ButtonAppBar() {
           LastArray && LastArray.map( (value) => {
               lastElementTotal = lastElementTotal + value.y
           } )
-          listId && listId.push({name: 'Other', y: lastElementTotal})
+          parseFloat(chartMax.chartMax) < listLast.length &&  listId && listId.push({name: 'Other', y: lastElementTotal})
             console.log(listId)
 
 
@@ -160,7 +160,7 @@ export default function ButtonAppBar() {
           LastArrayArea && LastArrayArea.map( (value) => {
               lastElementTotalArea = lastElementTotalArea + value.y
           } )
-          listAreaId && listAreaId.push({name: 'Other', y: lastElementTotalArea})
+          parseFloat(chartMax.chartMax) < listLastArea.length && listAreaId && listAreaId.push({name: 'Other', y: lastElementTotalArea})
 
 
           options =   {
@@ -197,7 +197,6 @@ export default function ButtonAppBar() {
           data_filter && data_filter.map((value)  => {
               total = total + parseInt(value.population)
           })
-          console.log(total)
           data_filter && data_filter.map((value)  => {
               totalKm = totalKm + parseInt(value.areaInSqKm)
           })
@@ -215,8 +214,7 @@ export default function ButtonAppBar() {
           LastArray && LastArray.map( (value) => {
               lastElementTotal = lastElementTotal + value.y
           } )
-          listId && listId.push({name: 'Other', y: lastElementTotal})
-          console.log(listId)
+          parseFloat(chartMax.chartMax) < listLast.length &&  listId && listId.push({name: 'Other', y: lastElementTotal})
 
 
           let listArea = data_filter && data_filter.map((value) => {
@@ -233,7 +231,7 @@ export default function ButtonAppBar() {
           LastArrayArea && LastArrayArea.map( (value) => {
               lastElementTotalArea = lastElementTotalArea + value.y
           } )
-          listAreaId && listAreaId.push({name: 'Other', y: lastElementTotalArea})
+          parseFloat(chartMax.chartMax) < listLastArea.length &&  listAreaId && listAreaId.push({name: 'Other', y: lastElementTotalArea})
 
 
           rows = data_filter && data_filter.map((value) => {
