@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/HighChartsExample/static/css/main.5ecd60fb.chunk.css",
-    "main.js": "/HighChartsExample/static/js/main.f927180d.chunk.js",
-    "main.js.map": "/HighChartsExample/static/js/main.f927180d.chunk.js.map",
+    "main.js": "/HighChartsExample/static/js/main.1083e659.chunk.js",
+    "main.js.map": "/HighChartsExample/static/js/main.1083e659.chunk.js.map",
     "runtime-main.js": "/HighChartsExample/static/js/runtime-main.742297da.js",
     "runtime-main.js.map": "/HighChartsExample/static/js/runtime-main.742297da.js.map",
     "static/js/2.05396b50.chunk.js": "/HighChartsExample/static/js/2.05396b50.chunk.js",
     "static/js/2.05396b50.chunk.js.map": "/HighChartsExample/static/js/2.05396b50.chunk.js.map",
     "index.html": "/HighChartsExample/index.html",
-    "precache-manifest.9cbe20159c8830c15ef22b08eba625f8.js": "/HighChartsExample/precache-manifest.9cbe20159c8830c15ef22b08eba625f8.js",
+    "precache-manifest.5e1c147a73537fee95e5db3d630f0ce1.js": "/HighChartsExample/precache-manifest.5e1c147a73537fee95e5db3d630f0ce1.js",
     "service-worker.js": "/HighChartsExample/service-worker.js",
     "static/css/main.5ecd60fb.chunk.css.map": "/HighChartsExample/static/css/main.5ecd60fb.chunk.css.map",
     "static/js/2.05396b50.chunk.js.LICENSE.txt": "/HighChartsExample/static/js/2.05396b50.chunk.js.LICENSE.txt"
@@ -17,6 +17,6 @@
     "static/js/runtime-main.742297da.js",
     "static/js/2.05396b50.chunk.js",
     "static/css/main.5ecd60fb.chunk.css",
-    "static/js/main.f927180d.chunk.js"
+    "static/js/main.1083e659.chunk.js"
   ]
 }

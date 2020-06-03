@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "e7eb268065d87c802f266b83c37331d7",
+    "revision": "8e21d86546a1173396e7fa1c01b03967",
     "url": "/HighChartsExample/index.html"
   },
   {
-    "revision": "cad93ec114bf54d4c76f",
+    "revision": "16b0636e28ad3c591717",
     "url": "/HighChartsExample/static/css/main.5ecd60fb.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/HighChartsExample/static/js/2.05396b50.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "cad93ec114bf54d4c76f",
-    "url": "/HighChartsExample/static/js/main.f927180d.chunk.js"
+    "revision": "16b0636e28ad3c591717",
+    "url": "/HighChartsExample/static/js/main.1083e659.chunk.js"
   },
   {
     "revision": "ddcb684a39379228a100",
