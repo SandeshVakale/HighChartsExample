@@ -136,7 +136,7 @@ export default function ButtonAppBar() {
               },
               series: [{
                   data:
-                      data_filter && data_filter.map((value, i) => {
+                      data_filter && data_filter.map((value) => {
                           return {
                               name: value.countryName,
                               y: (parseFloat(value.population) / total) * 100
