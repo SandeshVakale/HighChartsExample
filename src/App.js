@@ -18,10 +18,10 @@ import PieChart from 'highcharts';
 import HighchartsReact from 'highcharts-react-official'
 
 
-let options = []
+let options = [] // Options for pie chart
 let optionsKm = []
-let rows = []
-const useStyles = makeStyles((theme) => ({
+let rows = [] // rows for table
+const useStyles = makeStyles((theme) => ({ // style sheet
   root: {
     flexGrow: 1,
   },
@@ -60,25 +60,28 @@ const StyledTableRow = withStyles((theme) => ({
         },
     },
 }))(TableRow);
-const Link = "http://api.geonames.org/countryInfoJSON?formatted=true&username=hydrane"
+const Link = "http://api.geonames.org/countryInfoJSON?formatted=true&username=hydrane" // link to fetch data
 
 export default function ButtonAppBar() {
   const classes = useStyles();
-  const [data, setData] = useState(0);
-  const [continent, setContinent] = useState(0);
+  const [data, setData] = useState(0); // state for fetched data
+  const [continent, setContinent] = useState(0); // state for saved continents
   const [state, setState] = useState({
-    continent: '',
+    continent: '', // state foe continent
     name: '',
   });
     const [metric, setMetric] = useState({
-        metric: 'ALL',
+        metric: 'ALL', // state for metric
         name: '',
     });
     const [chartMax, setChartMax] = useState({
-        chartMax: 5,
+        chartMax: 5, //stae for chart max
         name: '',
     });
     const [disabled, setDisabled] = useState(true);
+
+  // Methods to change state below
+
   const handleChangeContinent = (event) => {
     const name = event.target.name;
     setState({
@@ -105,6 +108,8 @@ export default function ButtonAppBar() {
         handledata(state.continent)
     };
 
+    // Functions to get all continents
+
   const getContinents = (data) => {
       let arrayData = data && data.geonames.map((value) => value.continentName)
       let filterData = arrayData.filter((value, index) => arrayData.indexOf(value) === index)
@@ -112,9 +117,12 @@ export default function ButtonAppBar() {
         setContinent(filterData.sort())
 
   }
+  // function for table
     function createData(continentName, CountryName, Population, Area) {
         return { continentName, CountryName, Population, Area };
     }
+
+    // all data manupulation below
 
   const handledata = (continent) => {
 
@@ -263,12 +271,16 @@ export default function ButtonAppBar() {
 
     }
 
+   // function to fetch data
+
   async function fetchData() {
         const api_call = await fetch(Link);
         const data = await api_call.json();
         setData(data)
       getContinents(data);
     }
+
+  // function for button.
 
   const onPressGo = () => {
       fetchData()
