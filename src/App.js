@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -31,8 +38,28 @@ const useStyles = makeStyles((theme) => ({
   selectEmpty: {
     marginTop: theme.spacing(2),
   },
+    table: {
+        minWidth: 700,
+    },
 }));
 
+const StyledTableCell = withStyles((theme) => ({
+    head: {
+        backgroundColor: theme.palette.common.black,
+        color: theme.palette.common.white,
+    },
+    body: {
+        fontSize: 14,
+    },
+}))(TableCell);
+
+const StyledTableRow = withStyles((theme) => ({
+    root: {
+        '&:nth-of-type(odd)': {
+            backgroundColor: theme.palette.action.hover,
+        },
+    },
+}))(TableRow);
 const Link = "http://api.geonames.org/countryInfoJSON?formatted=true&username=hydrane"
 
 export default function ButtonAppBar() {
@@ -67,7 +94,6 @@ export default function ButtonAppBar() {
             ...metric,
             [name]: event.target.value,
         });
-       handleTable(event.target.value)
     };
 
     const handleChangeChartMax = (event) => {
@@ -85,6 +111,9 @@ export default function ButtonAppBar() {
         setContinent(filterData.sort())
 
   }
+    function createData(continentName, CountryName, Population, Area) {
+        return { continentName, CountryName, Population, Area };
+    }
 
   const handledata = (continent) => {
 
@@ -115,6 +144,10 @@ export default function ButtonAppBar() {
                       })
               }]
           }
+
+          rows = data_filter && data_filter.map((value) => {
+              return createData(value.continentName, value.countryName, (parseFloat(value.population) / total) * 100, (parseFloat(value.areaInSqKm) / totalKm) * 100)
+          })
           optionsKm =   {
               title: {
                   text: 'Area Square Meter'
@@ -143,6 +176,9 @@ export default function ButtonAppBar() {
           console.log(total)
           data_filter && data_filter.map((value)  => {
               totalKm = totalKm + parseInt(value.areaInSqKm)
+          })
+          rows = data_filter && data_filter.map((value) => {
+              return createData(value.continentName, value.countryName, (parseFloat(value.population) / total) * 100, (parseFloat(value.areaInSqKm) / totalKm) * 100)
           })
           options =   {
               title: {
@@ -179,10 +215,6 @@ export default function ButtonAppBar() {
               }]
           }
       }
-
-    }
-
-    const handleTable = (table) => {
 
     }
 
@@ -264,6 +296,31 @@ export default function ButtonAppBar() {
         </FormControl>
           {(metric.metric === 'ALL' || metric.metric === 'population') && <HighchartsReact highcharts={PieChart} options={options} />}
           {(metric.metric === 'ALL' || metric.metric === 'areaInSqKm') && <HighchartsReact highcharts={PieChart} options={optionsKm} />}
+
+          <TableContainer component={Paper}>
+              <Table className={classes.table} aria-label="customized table">
+                  <TableHead>
+                      <TableRow>
+                          <StyledTableCell>Continent</StyledTableCell>
+                          <StyledTableCell align="right">Country</StyledTableCell>
+                          {(metric.metric === 'ALL' || metric.metric === 'population') &&  <StyledTableCell align="right">Population</StyledTableCell>}
+                          {(metric.metric === 'ALL' || metric.metric === 'areaInSqKm') && <StyledTableCell align="right">Area</StyledTableCell>}
+                      </TableRow>
+                  </TableHead>
+                  <TableBody>
+                      {rows && rows.map((row) => (
+                          <StyledTableRow key={row.name}>
+                              <StyledTableCell component="th" scope="row">
+                                  {row.continentName}
+                              </StyledTableCell>
+                              <StyledTableCell align="right">{row.CountryName}</StyledTableCell>
+                              {(metric.metric === 'ALL' || metric.metric === 'population') && <StyledTableCell align="right">{row.Population}</StyledTableCell>}
+                              {(metric.metric === 'ALL' || metric.metric === 'areaInSqKm') &&  <StyledTableCell align="right">{row.Area}</StyledTableCell>}
+                          </StyledTableRow>
+                      ))}
+                  </TableBody>
+              </Table>
+          </TableContainer>
       </div>
   );
 }
