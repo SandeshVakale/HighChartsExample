@@ -75,7 +75,7 @@ export default function ButtonAppBar() {
         name: '',
     });
     const [chartMax, setChartMax] = useState({
-        chartMax: '5',
+        chartMax: 5,
         name: '',
     });
     const [disabled, setDisabled] = useState(true);
@@ -102,6 +102,7 @@ export default function ButtonAppBar() {
             ...chartMax,
             [name]: event.target.value,
         });
+        handledata(state.continent)
     };
 
   const getContinents = (data) => {
@@ -127,6 +128,41 @@ export default function ButtonAppBar() {
           data_filter && data_filter.map((value)  => {
               totalKm = totalKm + parseInt(value.areaInSqKm)
           })
+
+          let list = data_filter && data_filter.map((value) => {
+              return {
+                  name: value.countryName,
+                  y: (parseFloat(value.population) / total) * 100
+              }
+          })
+          let listLast = list
+          let listId = list && list.slice(0, parseFloat(chartMax.chartMax))
+          let LastArray = listLast && listLast.slice(Math.max(listLast.length - parseFloat(chartMax.chartMax), 1))
+          let lastElementTotal = 0
+          LastArray && LastArray.map( (value) => {
+              lastElementTotal = lastElementTotal + value.y
+          } )
+          listId && listId.push({name: 'Other', y: lastElementTotal})
+            console.log(listId)
+
+
+          let listArea = data_filter && data_filter.map((value) => {
+              return {
+                  name: value.countryName,
+                  y: (parseFloat(value.areaInSqKm) / totalKm) * 100
+              }
+          })
+
+          let listLastArea = listArea
+          let listAreaId = listArea && listArea.slice(0, parseFloat(chartMax.chartMax))
+          let LastArrayArea = listLastArea && listLastArea.slice(Math.max(listLastArea.length - parseFloat(chartMax.chartMax), 1))
+          let lastElementTotalArea = 0
+          LastArrayArea && LastArrayArea.map( (value) => {
+              lastElementTotalArea = lastElementTotalArea + value.y
+          } )
+          listAreaId && listAreaId.push({name: 'Other', y: lastElementTotalArea})
+
+
           options =   {
               title: {
                   text: 'Population'
@@ -135,13 +171,7 @@ export default function ButtonAppBar() {
                   type: 'pie',
               },
               series: [{
-                  data:
-                      data_filter && data_filter.map((value) => {
-                          return {
-                              name: value.countryName,
-                              y: (parseFloat(value.population) / total) * 100
-                          }
-                      })
+                  data: listId
               }]
           }
 
@@ -156,13 +186,7 @@ export default function ButtonAppBar() {
                   type: 'pie',
               },
               series: [{
-                  data:
-                      data_filter && data_filter.map((value) => {
-                          return {
-                              name: value.countryName,
-                              y: (parseFloat(value.areaInSqKm) / totalKm) * 100
-                          }
-                      })
+                  data: listAreaId
               }]
           }
 
@@ -177,6 +201,41 @@ export default function ButtonAppBar() {
           data_filter && data_filter.map((value)  => {
               totalKm = totalKm + parseInt(value.areaInSqKm)
           })
+
+          let list = data_filter && data_filter.map((value) => {
+              return {
+                  name: value.countryName,
+                  y: (parseFloat(value.population) / total) * 100
+              }
+          })
+          let listLast = list
+          let listId = list && list.slice(0, parseFloat(chartMax.chartMax))
+          let LastArray = listLast && listLast.slice(Math.max(listLast.length - parseFloat(chartMax.chartMax), 1))
+          let lastElementTotal = 0
+          LastArray && LastArray.map( (value) => {
+              lastElementTotal = lastElementTotal + value.y
+          } )
+          listId && listId.push({name: 'Other', y: lastElementTotal})
+          console.log(listId)
+
+
+          let listArea = data_filter && data_filter.map((value) => {
+              return {
+                  name: value.countryName,
+                  y: (parseFloat(value.areaInSqKm) / totalKm) * 100
+              }
+          })
+
+          let listLastArea = listArea
+          let listAreaId = listArea && listArea.slice(0, parseFloat(chartMax.chartMax))
+          let LastArrayArea = listLastArea && listLastArea.slice(Math.max(listLastArea.length - parseFloat(chartMax.chartMax), 1))
+          let lastElementTotalArea = 0
+          LastArrayArea && LastArrayArea.map( (value) => {
+              lastElementTotalArea = lastElementTotalArea + value.y
+          } )
+          listAreaId && listAreaId.push({name: 'Other', y: lastElementTotalArea})
+
+
           rows = data_filter && data_filter.map((value) => {
               return createData(value.continentName, value.countryName, (parseFloat(value.population) / total) * 100, (parseFloat(value.areaInSqKm) / totalKm) * 100)
           })
@@ -188,13 +247,7 @@ export default function ButtonAppBar() {
                   type: 'pie',
               },
               series: [{
-                  data:
-                      data_filter && data_filter.map((value, i) => {
-                          return {
-                              name: value.countryName,
-                              y: (parseFloat(value.population) / total) * 100
-                          }
-                      })
+                  data: listId
               }]
           }
           optionsKm =   {
@@ -205,13 +258,7 @@ export default function ButtonAppBar() {
                   type: 'pie',
               },
               series: [{
-                  data:
-                      data_filter && data_filter.map((value) => {
-                          return {
-                              name: value.countryName,
-                              y: (parseFloat(value.areaInSqKm) / totalKm) * 100
-                          }
-                      })
+                  data: listAreaId
               }]
           }
       }
@@ -237,6 +284,7 @@ export default function ButtonAppBar() {
   }, []);
   return (
       <div className={classes.root}>
+          {console.log(chartMax)}
         <AppBar position="static">
           <Toolbar>
             <Typography variant="h1" className={classes.title}>
@@ -283,14 +331,14 @@ export default function ButtonAppBar() {
               value={state.age}
               onChange={handleChangeChartMax}
               inputProps={{
-                name: 'chart max',
+                name: 'chartMax',
                 id: 'chart-max-native-simple',
               }}
           >
-              <option value={'5'}>5</option>
-              <option value={'10'}>10</option>
-              <option value={'15'}>15</option>
-              <option value={'20'}>20</option>
+              <option value={5}>5</option>
+              <option value={10}>10</option>
+              <option value={15}>15</option>
+              <option value={20}>20</option>
           </Select>
         </FormControl>
           {(metric.metric === 'ALL' || metric.metric === 'population') && <HighchartsReact highcharts={PieChart} options={options} />}
