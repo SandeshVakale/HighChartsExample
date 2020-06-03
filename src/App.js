@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -17,9 +17,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const Link = "http://api.geonames.org/countryInfoJSON?formatted=true&username=hydrane"
+
 export default function ButtonAppBar() {
   const classes = useStyles();
-
+  const [data, setData] = useState(0);
+  useEffect( () => {
+    document.title = "Frontend Dev CS"
+    async function fetchData() {
+      const api_call = await fetch(Link);
+      const data = await api_call.json();
+      setData(data)
+    }
+    fetchData();
+  }, []);
   return (
       <div className={classes.root}>
         <AppBar position="static">
